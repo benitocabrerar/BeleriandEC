@@ -1,1 +1,947 @@
-hola
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villa Vista al Mar - Exclusivo Departamento en Tonsupa</title>
+    <meta name="description" content="Villa Vista al Mar - Departamento vacacional exclusivo en Tonsupa, Ecuador. Reserva directa con el mejor precio. Piscina privada, vista al mar.">
+    <meta name="keywords" content="tonsupa, ecuador, alquiler, vacaciones, playa, departamento, piscina privada, vista al mar">
+    <meta property="og:title" content="Villa Vista al Mar - Tonsupa">
+    <meta property="og:description" content="Departamento exclusivo frente al mar en Tonsupa, Ecuador">
+    <meta property="og:type" content="website">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0,123,191,0.8), rgba(0,198,204,0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23007BBF" width="1200" height="800"/><path fill="%2300C6CC" d="M0,400 Q300,300 600,400 T1200,400 L1200,800 L0,800 Z"/><circle fill="%23FFD700" cx="200" cy="150" r="50" opacity="0.7"/><rect fill="%23FFF" x="100" y="600" width="80" height="100" opacity="0.9"/><rect fill="%23FFF" x="300" y="580" width="60" height="120" opacity="0.8"/><rect fill="%23FFF" x="500" y="590" width="70" height="110" opacity="0.9"/></svg>') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #FF6B6B, #FFD93D);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255,107,107,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255,107,107,0.4);
+        }
+
+        .stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFD93D;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 80px 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            height: 250px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: linear-gradient(45deg, #007BBF, #00C6CC);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item:nth-child(1) { background: linear-gradient(45deg, #007BBF, #00C6CC); }
+        .gallery-item:nth-child(2) { background: linear-gradient(45deg, #00C6CC, #7FDBDA); }
+        .gallery-item:nth-child(3) { background: linear-gradient(45deg, #FFD93D, #FF6B6B); }
+        .gallery-item:nth-child(4) { background: linear-gradient(45deg, #6C5CE7, #A29BFE); }
+
+        .amenities {
+            background: white;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .amenity {
+            background: linear-gradient(135deg, rgba(0,123,191,0.1), rgba(0,198,204,0.1));
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(0,198,204,0.2);
+        }
+
+        .amenity:hover {
+            transform: translateY(-5px);
+        }
+
+        .amenity-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Calendar Styles */
+        .booking-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .booking-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .calendar-container {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-nav {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-nav:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .calendar-month {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .calendar-day.header {
+            font-weight: 600;
+            opacity: 0.7;
+            cursor: default;
+        }
+
+        .calendar-day.available {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .calendar-day.available:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .calendar-day.booked {
+            background: rgba(255,107,107,0.7);
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .calendar-day.selected {
+            background: #FFD93D;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .calendar-day.range {
+            background: rgba(255,217,61,0.3);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .booking-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FFD93D;
+            margin-bottom: 10px;
+        }
+
+        .price-label {
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .date-selector {
+            margin-bottom: 20px;
+        }
+
+        .date-input {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .date-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .booking-summary {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD93D;
+        }
+
+        .sync-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .reviews {
+            background: #f8f9fa;
+        }
+
+        .review-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .stars {
+            color: #FFD93D;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .floating-book {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #FF6B6B, #FFD93D);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(255,107,107,0.4);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                gap: 20px;
+            }
+            
+            .section {
+                padding: 60px 15px;
+            }
+            
+            .gallery {
+                padding: 60px 15px;
+            }
+            
+            .booking-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .floating-book {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="smooth-scroll">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Villa Vista al Mar</h1>
+            <p>Departamento exclusivo frente al mar en Tonsupa, Ecuador</p>
+            <a href="#booking" class="cta-button">Ver Disponibilidad</a>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Huéspedes</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Habitaciones</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Baños</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">4.67★</div>
+                    <div class="stat-label">54 Reseñas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery">
+        <h2 class="section-title">Vive la Experiencia</h2>
+        <p class="section-subtitle">Espacios diseñados para crear recuerdos inolvidables</p>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                🏊‍♀️ Piscina Privada con Vista al Mar
+            </div>
+            <div class="gallery-item">
+                🌊 Terraza con Vista Panorámica
+            </div>
+            <div class="gallery-item">
+                🛏️ Habitaciones Confortables
+            </div>
+            <div class="gallery-item">
+                🍽️ Comedor Elegante
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section class="section amenities">
+        <h2 class="section-title">Amenidades Exclusivas</h2>
+        <p class="section-subtitle">Todo lo que necesitas para unas vacaciones perfectas</p>
+        
+        <div class="amenities-grid">
+            <div class="amenity">
+                <div class="amenity-icon">🏊‍♀️</div>
+                <h3>Piscina Privada</h3>
+                <p>Disfruta de tu propia piscina con vista al océano</p>
+            </div>
+            <div class="amenity">
+                <div class="amenity-icon">🌊</div>
+                <h3>Frente al Mar</h3>
+                <p>Acceso directo a la playa de Tonsupa</p>
+            </div>
+            <div class="amenity">
+                <div class="amenity-icon">🚗</div>
+                <h3>Parqueadero</h3>
+                <p>Estacionamiento seguro incluido</p>
+            </div>
+            <div class="amenity">
+                <div class="amenity-icon">📶</div>
+                <h3>WiFi Gratis</h3>
+                <p>Internet de alta velocidad en todo el departamento</p>
+            </div>
+            <div class="amenity">
+                <div class="amenity-icon">❄️</div>
+                <h3>Aire Acondicionado</h3>
+                <p>Climatización en todas las habitaciones</p>
+            </div>
+            <div class="amenity">
+                <div class="amenity-icon">🍳</div>
+                <h3>Cocina Completa</h3>
+                <p>Equipada con todos los electrodomésticos</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section with Calendar -->
+    <section id="booking" class="section booking-section">
+        <h2 class="section-title">Disponibilidad y Reservas</h2>
+        <p class="section-subtitle">Calendario sincronizado con Airbnb • Precios en tiempo real</p>
+        
+        <div class="booking-container">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="calendar-nav" id="prevMonth">‹</button>
+                    <div class="calendar-month" id="currentMonth"></div>
+                    <button class="calendar-nav" id="nextMonth">›</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+                <div class="sync-info">
+                    <div class="loading" id="syncLoading">
+                        <div class="spinner"></div>
+                        Sincronizando con Airbnb...
+                    </div>
+                    <div id="syncStatus" style="display: none;">
+                        ✅ Última sincronización: <span id="lastSync"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="booking-card">
+                <div class="price" id="nightlyRate">$130</div>
+                <div class="price-label">por noche</div>
+                
+                <div class="date-selector">
+                    <input type="text" class="date-input" id="checkinDate" placeholder="Fecha de llegada" readonly>
+                    <input type="text" class="date-input" id="checkoutDate" placeholder="Fecha de salida" readonly>
+                </div>
+                
+                <div class="booking-summary" id="bookingSummary" style="display: none;">
+                    <div class="summary-row">
+                        <span>Noches:</span>
+                        <span id="nightCount">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>$130 x <span id="nightCountText">0</span> noches:</span>
+                        <span id="subtotal">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Limpieza:</span>
+                        <span>$25</span>
+                    </div>
+                    <div class="summary-row" style="border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; margin-top: 10px;">
+                        <span class="total-price">Total:</span>
+                        <span class="total-price" id="totalPrice">$0</span>
+                    </div>
+                </div>
+                
+                <button class="cta-button" id="bookingButton" style="width: 100%; opacity: 0.5; cursor: not-allowed;" disabled>
+                    Selecciona fechas
+                </button>
+                
+                <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                    📱 Reserva confirmada por WhatsApp en segundos
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="section reviews">
+        <h2 class="section-title">Lo Que Dicen Nuestros Huéspedes</h2>
+        <p class="section-subtitle">Experiencias reales de familias que han disfrutado Villa Vista al Mar</p>
+        
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p>"Increíble departamento con una vista espectacular. La piscina privada fue lo mejor para los niños. Definitivamente regresaremos."</p>
+            <strong>- María José, Quito</strong>
+        </div>
+        
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p>"Perfecto para grupos grandes. Muy limpio, bien equipado y la ubicación no puede ser mejor. El anfitrión muy atento."</p>
+            <strong>- Carlos, Guayaquil</strong>
+        </div>
+        
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p>"Una experiencia inolvidable. El departamento supera las expectativas y Tonsupa es un paraíso."</p>
+            <strong>- Ana, Cuenca</strong>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3>Villa Vista al Mar</h3>
+        <p>Tonsupa, Esmeraldas, Ecuador</p>
+        <p style="margin-top: 20px;">
+            📧 info@villavistamar.com | 📱 +593 99 999 9999
+        </p>
+        <p style="margin-top: 10px; opacity: 0.7;">
+            © 2025 Villa Vista al Mar. Todos los derechos reservados.
+        </p>
+        <p style="margin-top: 20px; opacity: 0.3;">
+            <a href="admin.html" style="color: rgba(255,255,255,0.3); text-decoration: none;">⚙️</a>
+        </p>
+    </footer>
+
+    <!-- Floating Book Button -->
+    <a href="#" class="floating-book" id="floatingBook">
+        💬 Reservar
+    </a>
+
+    <script>
+        class BookingCalendar {
+            constructor() {
+                this.currentDate = new Date();
+                this.selectedCheckIn = null;
+                this.selectedCheckOut = null;
+                this.bookedDates = new Set();
+                this.nightlyRate = 130;
+                this.cleaningFee = 25;
+                this.airbnbIcalUrl = 'TU_URL_ICAL_DE_AIRBNB'; // Reemplazar con tu URL iCal real
+                
+                this.init();
+            }
+
+            init() {
+                this.renderCalendar();
+                this.setupEventListeners();
+                this.syncWithAirbnb();
+                this.simulateBookedDates(); // Para demo
+            }
+
+            setupEventListeners() {
+                document.getElementById('prevMonth').addEventListener('click', () => {
+                    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+                    this.renderCalendar();
+                });
+
+                document.getElementById('nextMonth').addEventListener('click', () => {
+                    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+                    this.renderCalendar();
+                });
+
+                document.getElementById('bookingButton').addEventListener('click', () => {
+                    this.makeReservation();
+                });
+            }
+
+            renderCalendar() {
+                const monthNames = [
+                    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+                ];
+
+                const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+                document.getElementById('currentMonth').textContent = 
+                    `${monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
+
+                const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+                const lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+                const startDate = new Date(firstDay);
+                startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+                const calendarGrid = document.getElementById('calendarGrid');
+                calendarGrid.innerHTML = '';
+
+                // Headers
+                dayNames.forEach(day => {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day header';
+                    dayElement.textContent = day;
+                    calendarGrid.appendChild(dayElement);
+                });
+
+                // Calendar days
+                const currentDate = new Date(startDate);
+                const today = new Date();
+                
+                for (let i = 0; i < 42; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day';
+                    dayElement.textContent = currentDate.getDate();
+                    
+                    const dateString = this.formatDate(currentDate);
+                    dayElement.dataset.date = dateString;
+
+                    // Styling based on conditions
+                    if (currentDate.getMonth() !== this.currentDate.getMonth()) {
+                        dayElement.classList.add('other-month');
+                    } else if (currentDate < today) {
+                        dayElement.classList.add('past');
+                        dayElement.style.opacity = '0.3';
+                        dayElement.style.cursor = 'not-allowed';
+                    } else if (this.bookedDates.has(dateString)) {
+                        dayElement.classList.add('booked');
+                    } else {
+                        dayElement.classList.add('available');
+                        dayElement.addEventListener('click', () => this.selectDate(currentDate));
+                    }
+
+                    // Highlight selected dates
+                    if (this.selectedCheckIn && this.formatDate(this.selectedCheckIn) === dateString) {
+                        dayElement.classList.add('selected');
+                    }
+                    if (this.selectedCheckOut && this.formatDate(this.selectedCheckOut) === dateString) {
+                        dayElement.classList.add('selected');
+                    }
+
+                    // Highlight date range
+                    if (this.selectedCheckIn && this.selectedCheckOut) {
+                        if (currentDate > this.selectedCheckIn && currentDate < this.selectedCheckOut) {
+                            dayElement.classList.add('range');
+                        }
+                    }
+
+                    calendarGrid.appendChild(dayElement);
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            }
+
+            selectDate(date) {
+                const selectedDate = new Date(date);
+                
+                if (!this.selectedCheckIn || (this.selectedCheckIn && this.selectedCheckOut)) {
+                    // First selection or reset
+                    this.selectedCheckIn = selectedDate;
+                    this.selectedCheckOut = null;
+                } else if (selectedDate > this.selectedCheckIn) {
+                    // Valid checkout date
+                    this.selectedCheckOut = selectedDate;
+                } else {
+                    // Invalid selection, reset
+                    this.selectedCheckIn = selectedDate;
+                    this.selectedCheckOut = null;
+                }
+
+                this.updateDateInputs();
+                this.calculateTotal();
+                this.renderCalendar();
+            }
+
+            updateDateInputs() {
+                const checkinInput = document.getElementById('checkinDate');
+                const checkoutInput = document.getElementById('checkoutDate');
+
+                checkinInput.value = this.selectedCheckIn ? 
+                    this.selectedCheckIn.toLocaleDateString('es-ES') : '';
+                checkoutInput.value = this.selectedCheckOut ? 
+                    this.selectedCheckOut.toLocaleDateString('es-ES') : '';
+            }
+
+            calculateTotal() {
+                if (!this.selectedCheckIn || !this.selectedCheckOut) {
+                    document.getElementById('bookingSummary').style.display = 'none';
+                    document.getElementById('bookingButton').disabled = true;
+                    document.getElementById('bookingButton').style.opacity = '0.5';
+                    document.getElementById('bookingButton').style.cursor = 'not-allowed';
+                    document.getElementById('bookingButton').textContent = 'Selecciona fechas';
+                    return;
+                }
+
+                const nights = Math.ceil((this.selectedCheckOut - this.selectedCheckIn) / (1000 * 60 * 60 * 24));
+                const subtotal = nights * this.nightlyRate;
+                const total = subtotal + this.cleaningFee;
+
+                document.getElementById('nightCount').textContent = nights;
+                document.getElementById('nightCountText').textContent = nights;
+                document.getElementById('subtotal').textContent = `$${subtotal}`;
+                document.getElementById('totalPrice').textContent = `$${total}`;
+
+                document.getElementById('bookingSummary').style.display = 'block';
+                document.getElementById('bookingButton').disabled = false;
+                document.getElementById('bookingButton').style.opacity = '1';
+                document.getElementById('bookingButton').style.cursor = 'pointer';
+                document.getElementById('bookingButton').textContent = '📱 Reservar por WhatsApp';
+            }
+
+            makeReservation() {
+                if (!this.selectedCheckIn || !this.selectedCheckOut) return;
+
+                const checkin = this.selectedCheckIn.toLocaleDateString('es-ES');
+                const checkout = this.selectedCheckOut.toLocaleDateString('es-ES');
+                const nights = Math.ceil((this.selectedCheckOut - this.selectedCheckIn) / (1000 * 60 * 60 * 24));
+                const total = (nights * this.nightlyRate) + this.cleaningFee;
+
+                const message = `¡Hola! Me interesa reservar Villa Vista al Mar en Tonsupa:
+
+📅 Llegada: ${checkin}
+📅 Salida: ${checkout}
+🌙 Noches: ${nights}
+💰 Total: $${total}
+
+¿Está disponible para estas fechas?`;
+
+                const whatsappUrl = `https://wa.me/593999999999?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+
+            formatDate(date) {
+                return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            }
+
+            simulateBookedDates() {
+                // Simular algunas fechas ocupadas para la demo
+                const today = new Date();
+                const bookedDates = [
+                    new Date(today.getFullYear(), today.getMonth(), 15),
+                    new Date(today.getFullYear(), today.getMonth(), 16),
+                    new Date(today.getFullYear(), today.getMonth(), 17),
+                    new Date(today.getFullYear(), today.getMonth(), 25),
+                    new Date(today.getFullYear(), today.getMonth(), 26),
+                ];
+
+                bookedDates.forEach(date => {
+                    this.bookedDates.add(this.formatDate(date));
+                });
+            }
+
+            async syncWithAirbnb() {
+                try {
+                    // Simulación de sincronización
+                    setTimeout(() => {
+                        document.getElementById('syncLoading').style.display = 'none';
+                        document.getElementById('syncStatus').style.display = 'block';
+                        document.getElementById('lastSync').textContent = new Date().toLocaleString('es-ES');
+                    }, 2000);
+
+                    // En producción, aquí harías la llamada real a tu API que maneja el iCal
+                    // const response = await fetch('/api/sync-airbnb', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify({ icalUrl: this.airbnbIcalUrl })
+                    // });
+                    // const data = await response.json();
+                    // this.bookedDates = new Set(data.bookedDates);
+                    
+                } catch (error) {
+                    console.error('Error syncing with Airbnb:', error);
+                    document.getElementById('syncLoading').innerHTML = '⚠️ Error de sincronización';
+                }
+            }
+        }
+
+        // Initialize the booking system when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new BookingCalendar();
+            
+            // Update floating button
+            document.getElementById('floatingBook').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for animation
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
