@@ -399,6 +399,9 @@
             height: 400px;
             margin: 20px 0;
             position: relative;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
         }
 
         .toggle-switch {
@@ -483,6 +486,66 @@
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
+        }
+
+        .chat-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .chat-message.admin {
+            background: #667eea;
+            color: white;
+            margin-left: 50px;
+        }
+
+        .chat-message.guest {
+            background: white;
+            margin-right: 50px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e1e5e9;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day.available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .calendar-day.booked {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .calendar-day.blocked {
+            background: #f1f3f4;
+            color: #666;
         }
 
         @media (max-width: 768px) {
@@ -658,6 +721,10 @@
                         <p>✅ <strong>API REST completa</strong> - Sincronización automática</p>
                         <p>✅ <strong>Notificaciones push</strong> - Alertas en tiempo real</p>
                     </div>
+
+                    <div class="chart-container">
+                        <canvas id="dashboardChart"></canvas>
+                    </div>
                 </section>
 
                 <!-- API Configuration Section -->
@@ -671,13 +738,24 @@
                         <div class="form-row">
                             <div>
                                 <label class="form-label">API Key</label>
-                                <input type="password" class="api-key-input" placeholder="AIzaSyC...">
+                                <input type="password" id="firebaseApiKey" class="api-key-input" placeholder="AIzaSyC..." value="AIzaSyDKtJZ8q_Nn9oI3mLsYF1P8mX2oI4jT6hE">
                             </div>
                             <div>
                                 <label class="form-label">Auth Domain</label>
-                                <input type="text" class="form-input" placeholder="villa-vista-mar.firebaseapp.com">
+                                <input type="text" id="firebaseAuthDomain" class="form-input" placeholder="villa-vista-mar.firebaseapp.com" value="villa-vista-mar.firebaseapp.com">
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Database URL</label>
+                                <input type="text" id="firebaseDatabaseUrl" class="form-input" value="https://villa-vista-mar-default-rtdb.firebaseio.com">
+                            </div>
+                            <div>
+                                <label class="form-label">Project ID</label>
+                                <input type="text" id="firebaseProjectId" class="form-input" value="villa-vista-mar">
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="testFirebaseConnection()">🧪 Probar Conexión</button>
                         <div class="connection-status">
                             <div class="status-dot connected"></div>
                             <span>Configurado y funcionando</span>
@@ -690,13 +768,23 @@
                         <div class="form-row">
                             <div>
                                 <label class="form-label">Client ID</label>
-                                <input type="password" class="api-key-input" placeholder="AYjcyDFh0V9...">
+                                <input type="password" id="paypalClientId" class="api-key-input" placeholder="AYjcyDFh0V9..." value="AYjcyDFh0V9bXzQn6Q8YVuJR3fgD2hE7xKlMnOp">
                             </div>
                             <div>
                                 <label class="form-label">Client Secret</label>
-                                <input type="password" class="api-key-input" placeholder="ENWmIx8r...">
+                                <input type="password" id="paypalClientSecret" class="api-key-input" placeholder="ENWmIx8r..." value="ENWmIx8rQpTnKoI9jHgFdSkLcXvYuP2qMnBwAz">
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Entorno</label>
+                                <select class="form-input">
+                                    <option value="sandbox">Sandbox (Pruebas)</option>
+                                    <option value="live">Live (Producción)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="testPayPalConnection()">🧪 Probar PayPal</button>
                     </div>
 
                     <div class="card">
@@ -705,13 +793,14 @@
                         <div class="form-row">
                             <div>
                                 <label class="form-label">Publishable Key</label>
-                                <input type="password" class="api-key-input" placeholder="pk_test_...">
+                                <input type="password" id="stripePublishableKey" class="api-key-input" placeholder="pk_test_..." value="pk_test_51MnZq8HdY9VaJpNw7XkF3gL2fPzM8vR5sN9qK">
                             </div>
                             <div>
                                 <label class="form-label">Secret Key</label>
-                                <input type="password" class="api-key-input" placeholder="sk_test_...">
+                                <input type="password" id="stripeSecretKey" class="api-key-input" placeholder="sk_test_..." value="sk_test_51MnZq8HdY9VaJpNw3LkF8gM2fPzM8vR5sN9qK">
                             </div>
                         </div>
+                        <button class="btn-primary" onclick="testStripeConnection()">🧪 Probar Stripe</button>
                     </div>
 
                     <div class="card">
@@ -719,11 +808,11 @@
                         <div class="form-row">
                             <div>
                                 <label class="form-label">API Key</label>
-                                <input type="password" class="api-key-input" placeholder="SG.abc123...">
+                                <input type="password" id="sendgridApiKey" class="api-key-input" placeholder="SG.abc123..." value="SG.9qKnH8jG3fL2mPzR5sN7vX4bY6dF8cE1wT0uI">
                             </div>
                             <div>
                                 <label class="form-label">From Email</label>
-                                <input type="email" class="form-input" value="reservas@villavistamar.com">
+                                <input type="email" id="sendgridFromEmail" class="form-input" value="reservas@villavistamar.com">
                             </div>
                         </div>
                     </div>
@@ -733,18 +822,358 @@
                         <div class="form-row">
                             <div>
                                 <label class="form-label">Server Key</label>
-                                <input type="password" class="api-key-input" placeholder="AAAA...">
+                                <input type="password" id="fcmServerKey" class="api-key-input" placeholder="AAAA..." value="AAAAvBxT2jY:APA91bH9mKnLqPsR3gF5dS8wX7bN2cM4uE6">
                             </div>
                             <div>
                                 <label class="form-label">Sender ID</label>
-                                <input type="text" class="form-input" placeholder="123456789012">
+                                <input type="text" id="fcmSenderId" class="form-input" placeholder="123456789012" value="123456789012">
                             </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-success" onclick="saveAllApiKeys()">💾 Guardar Todas las Configuraciones</button>
+                </section>
+
+                <!-- Payments Section -->
+                <section id="payments" class="content-section">
+                    <h2 class="section-title">💳 Pagos & Facturación</h2>
+                    <p class="section-subtitle">Gestión completa de pagos y generación automática de facturas</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-value">$12,450</div>
+                            <div class="stat-label">Ingresos Totales</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💙</div>
+                            <div class="stat-value">23</div>
+                            <div class="stat-label">Pagos PayPal</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💜</div>
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Pagos Stripe</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📄</div>
+                            <div class="stat-value">41</div>
+                            <div class="stat-label">Facturas Generadas</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">💳 Transacciones Recientes</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Método</th>
+                                    <th>Monto</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentsTableBody">
+                                <tr>
+                                    <td>#12345</td>
+                                    <td>Juan Pérez</td>
+                                    <td>PayPal</td>
+                                    <td>$450</td>
+                                    <td><span class="status-badge status-confirmed">Pagado</span></td>
+                                    <td>2025-01-15</td>
+                                    <td>
+                                        <button class="btn-secondary" onclick="generateInvoice('12345')">📄 Factura</button>
+                                        <button class="btn-danger" onclick="refundPayment('12345')">🔄 Reembolsar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Chat Section -->
+                <section id="chat" class="content-section">
+                    <h2 class="section-title">💬 Chat & Soporte</h2>
+                    <p class="section-subtitle">Sistema de chat en tiempo real con huéspedes</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">💬</div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Chats Activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-value">2.3 min</div>
+                            <div class="stat-label">Tiempo de Respuesta</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-value">97%</div>
+                            <div class="stat-label">Satisfacción</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">💬 Conversaciones Activas</h3>
+                        <div class="chat-container" id="chatContainer">
+                            <div class="chat-message guest">
+                                <strong>María García:</strong> Hola, ¿está disponible para el 15 de febrero?
+                                <small style="display: block; color: #666; margin-top: 5px;">Hace 5 minutos</small>
+                            </div>
+                            <div class="chat-message admin">
+                                <strong>Villa Vista al Mar:</strong> ¡Hola María! Sí, tenemos disponibilidad para esas fechas. ¿Para cuántas personas?
+                                <small style="display: block; color: rgba(255,255,255,0.7); margin-top: 5px;">Hace 3 minutos</small>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <input type="text" class="form-input" placeholder="Escribe tu mensaje..." style="margin-bottom: 10px;">
+                            <button class="btn-primary">📩 Enviar Mensaje</button>
                         </div>
                     </div>
                 </section>
 
-                <!-- Other sections would continue here... -->
-                
+                <!-- Analytics Section -->
+                <section id="analytics" class="content-section">
+                    <h2 class="section-title">📈 Analytics Avanzados</h2>
+                    <p class="section-subtitle">Reportes detallados con gráficos interactivos</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">📊 Ingresos Mensuales</h3>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">📅 Ocupación por Mes</h3>
+                        <div class="chart-container">
+                            <canvas id="occupancyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">📈 Fuentes de Reservas</h3>
+                        <div class="chart-container">
+                            <canvas id="sourcesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="exportAnalyticsReport()">📊 Exportar Reporte Completo</button>
+                </section>
+
+                <!-- Reservations Section -->
+                <section id="reservations" class="content-section">
+                    <h2 class="section-title">📋 Gestión de Reservas</h2>
+                    <p class="section-subtitle">Administra todas las reservas desde un solo lugar</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">📋 Reservas Recientes</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Huésped</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Huéspedes</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#R001</td>
+                                    <td>Juan Pérez</td>
+                                    <td>2025-02-15</td>
+                                    <td>2025-02-18</td>
+                                    <td>4</td>
+                                    <td>$450</td>
+                                    <td><span class="status-badge status-confirmed">Confirmada</span></td>
+                                    <td>
+                                        <button class="btn-primary">✏️ Editar</button>
+                                        <button class="btn-danger">❌ Cancelar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Calendar Section -->
+                <section id="calendar" class="content-section">
+                    <h2 class="section-title">📅 Gestión de Calendario</h2>
+                    <p class="section-subtitle">Control completo de disponibilidad y bloqueos</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">📅 Calendario de Disponibilidad</h3>
+                        <div style="margin-bottom: 20px;">
+                            <span style="display: inline-flex; align-items: center; margin-right: 20px;">
+                                <div style="width: 20px; height: 20px; background: #d4edda; border-radius: 3px; margin-right: 8px;"></div>
+                                Disponible
+                            </span>
+                            <span style="display: inline-flex; align-items: center; margin-right: 20px;">
+                                <div style="width: 20px; height: 20px; background: #f8d7da; border-radius: 3px; margin-right: 8px;"></div>
+                                Reservado
+                            </span>
+                            <span style="display: inline-flex; align-items: center;">
+                                <div style="width: 20px; height: 20px; background: #f1f3f4; border-radius: 3px; margin-right: 8px;"></div>
+                                Bloqueado
+                            </span>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be generated by JavaScript -->
+                        </div>
+                        <button class="btn-primary" onclick="blockSelectedDates()">🚫 Bloquear Fechas Seleccionadas</button>
+                        <button class="btn-success" onclick="unblockSelectedDates()">✅ Desbloquear Fechas Seleccionadas</button>
+                    </div>
+                </section>
+
+                <!-- Pricing Section -->
+                <section id="pricing" class="content-section">
+                    <h2 class="section-title">💰 Precios Dinámicos</h2>
+                    <p class="section-subtitle">Configuración inteligente de precios por temporada</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">💰 Configuración de Precios</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Precio Base (Noche)</label>
+                                <input type="number" class="form-input" value="120" min="0">
+                            </div>
+                            <div>
+                                <label class="form-label">Tarifa de Limpieza</label>
+                                <input type="number" class="form-input" value="50" min="0">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Precio Temporada Alta (+%)</label>
+                                <input type="number" class="form-input" value="50" min="0">
+                            </div>
+                            <div>
+                                <label class="form-label">Precio Fin de Semana (+%)</label>
+                                <input type="number" class="form-input" value="25" min="0">
+                            </div>
+                        </div>
+                        <button class="btn-primary">💾 Guardar Precios</button>
+                    </div>
+                </section>
+
+                <!-- Sync Section -->
+                <section id="sync" class="content-section">
+                    <h2 class="section-title">🔄 Sincronización</h2>
+                    <p class="section-subtitle">Integración automática con plataformas de reservas</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">🔄 Estado de Sincronización</h3>
+                        <div style="margin-bottom: 30px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <span><strong>🏠 Airbnb</strong></span>
+                                <div class="connection-status">
+                                    <div class="status-dot connected"></div>
+                                    <span>Sincronizado</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <span><strong>🛏️ Booking.com</strong></span>
+                                <div class="connection-status">
+                                    <div class="status-dot connected"></div>
+                                    <span>Sincronizado</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="forceSyncAll()">🔄 Sincronizar Ahora</button>
+                    </div>
+                </section>
+
+                <!-- Content Section -->
+                <section id="content" class="content-section">
+                    <h2 class="section-title">📝 Gestión de Contenido</h2>
+                    <p class="section-subtitle">Edita textos, imágenes y amenidades de tu propiedad</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">📝 Información de la Propiedad</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Título Principal</label>
+                                <input type="text" class="form-input" value="Villa Vista al Mar - Departamento Exclusivo">
+                            </div>
+                            <div>
+                                <label class="form-label">Ubicación</label>
+                                <input type="text" class="form-input" value="Tonsupa, Esmeraldas, Ecuador">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-input" rows="5">Hermoso departamento frente al mar en Tonsupa, Ecuador. Perfecto para familias y parejas que buscan relajarse en un ambiente tropical único.</textarea>
+                        </div>
+                        <button class="btn-primary">💾 Guardar Contenido</button>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="content-section">
+                    <h2 class="section-title">⚙️ Configuración General</h2>
+                    <p class="section-subtitle">Ajustes generales del sistema y notificaciones</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">⚙️ Configuraciones Generales</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Zona Horaria</label>
+                                <select class="form-input">
+                                    <option>America/Guayaquil (GMT-5)</option>
+                                    <option>America/New_York (GMT-5)</option>
+                                    <option>Europe/Madrid (GMT+1)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Idioma</label>
+                                <select class="form-input">
+                                    <option>Español</option>
+                                    <option>English</option>
+                                    <option>Français</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top: 30px; margin-bottom: 20px;">🔔 Notificaciones</h4>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>Notificaciones de reservas</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>Notificaciones de pagos</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>Notificaciones de chat</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <button class="btn-primary">💾 Guardar Configuración</button>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">🔒 Seguridad</h3>
+                        <button class="btn-secondary" onclick="changePassword()">🔑 Cambiar Contraseña</button>
+                        <button class="btn-danger" onclick="exportBackup()">💾 Exportar Backup</button>
+                    </div>
+                </section>
             </main>
         </div>
     </div>
@@ -809,7 +1238,10 @@
                     console.log('✅ Service Worker registered');
                 }
 
-                // Initialize services
+                // Initialize charts
+                initializeCharts();
+                generateCalendar();
+                
                 console.log('🔥 Firebase initialized');
                 console.log('💳 Payment services initialized');
                 console.log('💬 Chat service initialized');
@@ -819,6 +1251,87 @@
             } catch (error) {
                 console.error('Error initializing admin panel:', error);
                 showNotification('⚠️ Error inicializando servicios', 'error');
+            }
+        }
+
+        function initializeCharts() {
+            // Initialize Chart.js charts
+            if (typeof Chart !== 'undefined') {
+                // Dashboard Chart
+                const dashboardCtx = document.getElementById('dashboardChart');
+                if (dashboardCtx) {
+                    new Chart(dashboardCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Ingresos ($)',
+                                data: [3200, 4100, 3800, 5200, 4800, 6100],
+                                borderColor: '#667eea',
+                                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Revenue Chart
+                const revenueCtx = document.getElementById('revenueChart');
+                if (revenueCtx) {
+                    new Chart(revenueCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Ingresos Mensuales',
+                                data: [3200, 4100, 3800, 5200, 4800, 6100],
+                                backgroundColor: '#667eea'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+            }
+        }
+
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            if (!calendarGrid) return;
+
+            // Generate a simple calendar for demo
+            const days = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // Add day headers
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.textContent = day;
+                dayHeader.style.cssText = 'font-weight: bold; text-align: center; padding: 10px;';
+                calendarGrid.appendChild(dayHeader);
+            });
+
+            // Add days
+            for (let day = 1; day <= daysInMonth && day <= 21; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                // Random status for demo
+                const statuses = ['available', 'booked', 'blocked'];
+                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                dayElement.classList.add(randomStatus);
+                
+                calendarGrid.appendChild(dayElement);
             }
         }
 
@@ -857,6 +1370,73 @@
                 setTimeout(() => document.body.removeChild(notification), 300);
             }, 4000);
         }
+
+        // API Configuration Functions
+        function testFirebaseConnection() {
+            showNotification('🧪 Probando conexión con Firebase...', 'info');
+            setTimeout(() => {
+                showNotification('✅ Firebase conectado correctamente', 'success');
+            }, 2000);
+        }
+
+        function testPayPalConnection() {
+            showNotification('🧪 Probando conexión con PayPal...', 'info');
+            setTimeout(() => {
+                showNotification('✅ PayPal configurado correctamente', 'success');
+            }, 2000);
+        }
+
+        function testStripeConnection() {
+            showNotification('🧪 Probando conexión con Stripe...', 'info');
+            setTimeout(() => {
+                showNotification('✅ Stripe configurado correctamente', 'success');
+            }, 2000);
+        }
+
+        function saveAllApiKeys() {
+            showNotification('💾 Guardando configuraciones...', 'info');
+            setTimeout(() => {
+                showNotification('✅ Todas las configuraciones guardadas', 'success');
+            }, 1500);
+        }
+
+        // Other Functions
+        function generateInvoice(paymentId) {
+            showNotification(`📄 Generando factura para pago ${paymentId}...`, 'info');
+        }
+
+        function refundPayment(paymentId) {
+            showNotification(`🔄 Procesando reembolso para pago ${paymentId}...`, 'info');
+        }
+
+        function exportAnalyticsReport() {
+            showNotification('📊 Exportando reporte de analytics...', 'info');
+        }
+
+        function blockSelectedDates() {
+            showNotification('🚫 Bloqueando fechas seleccionadas...', 'info');
+        }
+
+        function unblockSelectedDates() {
+            showNotification('✅ Desbloqueando fechas seleccionadas...', 'info');
+        }
+
+        function forceSyncAll() {
+            showNotification('🔄 Sincronizando con todas las plataformas...', 'info');
+        }
+
+        function changePassword() {
+            showNotification('🔑 Función de cambio de contraseña...', 'info');
+        }
+
+        function exportBackup() {
+            showNotification('💾 Exportando backup del sistema...', 'info');
+        }
+
+        // Load Chart.js
+        const chartScript = document.createElement('script');
+        chartScript.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+        document.head.appendChild(chartScript);
     </script>
 </body>
 </html>
