@@ -325,6 +325,8 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
 
         .btn-danger {
@@ -336,6 +338,8 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
 
         .btn-success {
@@ -347,6 +351,110 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .chart-container {
+            height: 400px;
+            margin: 20px 0;
+            position: relative;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
 
         .api-key-input {
@@ -432,6 +540,66 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .chat-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .chat-message.admin {
+            background: #667eea;
+            color: white;
+            margin-left: 50px;
+        }
+
+        .chat-message.guest {
+            background: white;
+            margin-right: 50px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e1e5e9;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day.available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .calendar-day.booked {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .calendar-day.blocked {
+            background: #f1f3f4;
+            color: #666;
         }
 
         @media (max-width: 768px) {
@@ -522,6 +690,42 @@
                     <span class="sidebar-icon">🔍</span>
                     Estado del Sistema
                 </div>
+                <div class="sidebar-item" data-section="payments">
+                    <span class="sidebar-icon">💳</span>
+                    Pagos & Facturación
+                </div>
+                <div class="sidebar-item" data-section="chat">
+                    <span class="sidebar-icon">💬</span>
+                    Chat & Soporte
+                </div>
+                <div class="sidebar-item" data-section="analytics">
+                    <span class="sidebar-icon">📈</span>
+                    Analytics Avanzados
+                </div>
+                <div class="sidebar-item" data-section="reservations">
+                    <span class="sidebar-icon">📋</span>
+                    Reservas
+                </div>
+                <div class="sidebar-item" data-section="calendar">
+                    <span class="sidebar-icon">📅</span>
+                    Calendario
+                </div>
+                <div class="sidebar-item" data-section="pricing">
+                    <span class="sidebar-icon">💰</span>
+                    Precios Dinámicos
+                </div>
+                <div class="sidebar-item" data-section="sync">
+                    <span class="sidebar-icon">🔄</span>
+                    Sincronización
+                </div>
+                <div class="sidebar-item" data-section="content">
+                    <span class="sidebar-icon">📝</span>
+                    Contenido
+                </div>
+                <div class="sidebar-item" data-section="settings">
+                    <span class="sidebar-icon">⚙️</span>
+                    Configuración
+                </div>
             </nav>
 
             <!-- Main Content -->
@@ -578,6 +782,10 @@
                         <button class="btn-primary" onclick="window.testAllConnections()" style="margin-top: 20px;">
                             🧪 Probar Todas las Conexiones
                         </button>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="dashboardChart"></canvas>
                     </div>
                 </section>
 
@@ -757,6 +965,347 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Payments Section -->
+                <section id="payments" class="content-section">
+                    <h2 class="section-title">💳 Pagos & Facturación</h2>
+                    <p class="section-subtitle">Gestión completa de pagos y generación automática de facturas</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-value">$12,450</div>
+                            <div class="stat-label">Ingresos Totales</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💙</div>
+                            <div class="stat-value">23</div>
+                            <div class="stat-label">Pagos PayPal</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💜</div>
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Pagos Stripe</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📄</div>
+                            <div class="stat-value">41</div>
+                            <div class="stat-label">Facturas Generadas</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">💳 Transacciones Recientes</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Método</th>
+                                    <th>Monto</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentsTableBody">
+                                <tr>
+                                    <td>#12345</td>
+                                    <td>Juan Pérez</td>
+                                    <td>PayPal</td>
+                                    <td>$450</td>
+                                    <td><span class="status-badge status-confirmed">Pagado</span></td>
+                                    <td>2025-01-15</td>
+                                    <td>
+                                        <button class="btn-secondary" onclick="generateInvoice('12345')">📄 Factura</button>
+                                        <button class="btn-danger" onclick="refundPayment('12345')">🔄 Reembolsar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Chat Section -->
+                <section id="chat" class="content-section">
+                    <h2 class="section-title">💬 Chat & Soporte</h2>
+                    <p class="section-subtitle">Sistema de chat en tiempo real con huéspedes</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">💬</div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Chats Activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-value">2.3 min</div>
+                            <div class="stat-label">Tiempo de Respuesta</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-value">97%</div>
+                            <div class="stat-label">Satisfacción</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">💬 Conversaciones Activas</h3>
+                        <div class="chat-container" id="chatContainer">
+                            <div class="chat-message guest">
+                                <strong>María García:</strong> Hola, ¿está disponible para el 15 de febrero?
+                                <small style="display: block; color: #666; margin-top: 5px;">Hace 5 minutos</small>
+                            </div>
+                            <div class="chat-message admin">
+                                <strong>Villa Vista al Mar:</strong> ¡Hola María! Sí, tenemos disponibilidad para esas fechas. ¿Para cuántas personas?
+                                <small style="display: block; color: rgba(255,255,255,0.7); margin-top: 5px;">Hace 3 minutos</small>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <input type="text" class="form-input" placeholder="Escribe tu mensaje..." style="margin-bottom: 10px;">
+                            <button class="btn-primary">📩 Enviar Mensaje</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analytics" class="content-section">
+                    <h2 class="section-title">📈 Analytics Avanzados</h2>
+                    <p class="section-subtitle">Reportes detallados con gráficos interactivos</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">📊 Ingresos Mensuales</h3>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">📅 Ocupación por Mes</h3>
+                        <div class="chart-container">
+                            <canvas id="occupancyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">📈 Fuentes de Reservas</h3>
+                        <div class="chart-container">
+                            <canvas id="sourcesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="exportAnalyticsReport()">📊 Exportar Reporte Completo</button>
+                </section>
+
+                <!-- Reservations Section -->
+                <section id="reservations" class="content-section">
+                    <h2 class="section-title">📋 Gestión de Reservas</h2>
+                    <p class="section-subtitle">Administra todas las reservas desde un solo lugar</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">📋 Reservas Recientes</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Huésped</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Huéspedes</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#R001</td>
+                                    <td>Juan Pérez</td>
+                                    <td>2025-02-15</td>
+                                    <td>2025-02-18</td>
+                                    <td>4</td>
+                                    <td>$450</td>
+                                    <td><span class="status-badge status-confirmed">Confirmada</span></td>
+                                    <td>
+                                        <button class="btn-primary">✏️ Editar</button>
+                                        <button class="btn-danger">❌ Cancelar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Calendar Section -->
+                <section id="calendar" class="content-section">
+                    <h2 class="section-title">📅 Gestión de Calendario</h2>
+                    <p class="section-subtitle">Control completo de disponibilidad y bloqueos</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">📅 Calendario de Disponibilidad</h3>
+                        <div style="margin-bottom: 20px;">
+                            <span style="display: inline-flex; align-items: center; margin-right: 20px;">
+                                <div style="width: 20px; height: 20px; background: #d4edda; border-radius: 3px; margin-right: 8px;"></div>
+                                Disponible
+                            </span>
+                            <span style="display: inline-flex; align-items: center; margin-right: 20px;">
+                                <div style="width: 20px; height: 20px; background: #f8d7da; border-radius: 3px; margin-right: 8px;"></div>
+                                Reservado
+                            </span>
+                            <span style="display: inline-flex; align-items: center;">
+                                <div style="width: 20px; height: 20px; background: #f1f3f4; border-radius: 3px; margin-right: 8px;"></div>
+                                Bloqueado
+                            </span>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be generated by JavaScript -->
+                        </div>
+                        <button class="btn-primary" onclick="blockSelectedDates()">🚫 Bloquear Fechas Seleccionadas</button>
+                        <button class="btn-success" onclick="unblockSelectedDates()">✅ Desbloquear Fechas Seleccionadas</button>
+                    </div>
+                </section>
+
+                <!-- Pricing Section -->
+                <section id="pricing" class="content-section">
+                    <h2 class="section-title">💰 Precios Dinámicos</h2>
+                    <p class="section-subtitle">Configuración inteligente de precios por temporada</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">💰 Configuración de Precios</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Precio Base (Noche)</label>
+                                <input type="number" class="form-input" value="120" min="0">
+                            </div>
+                            <div>
+                                <label class="form-label">Tarifa de Limpieza</label>
+                                <input type="number" class="form-input" value="50" min="0">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Precio Temporada Alta (+%)</label>
+                                <input type="number" class="form-input" value="50" min="0">
+                            </div>
+                            <div>
+                                <label class="form-label">Precio Fin de Semana (+%)</label>
+                                <input type="number" class="form-input" value="25" min="0">
+                            </div>
+                        </div>
+                        <button class="btn-primary">💾 Guardar Precios</button>
+                    </div>
+                </section>
+
+                <!-- Sync Section -->
+                <section id="sync" class="content-section">
+                    <h2 class="section-title">🔄 Sincronización</h2>
+                    <p class="section-subtitle">Integración automática con plataformas de reservas</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">🔄 Estado de Sincronización</h3>
+                        <div style="margin-bottom: 30px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <span><strong>🏠 Airbnb</strong></span>
+                                <div class="connection-status">
+                                    <div class="status-dot connected"></div>
+                                    <span>Sincronizado</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <span><strong>🛏️ Booking.com</strong></span>
+                                <div class="connection-status">
+                                    <div class="status-dot connected"></div>
+                                    <span>Sincronizado</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="forceSyncAll()">🔄 Sincronizar Ahora</button>
+                    </div>
+                </section>
+
+                <!-- Content Section -->
+                <section id="content" class="content-section">
+                    <h2 class="section-title">📝 Gestión de Contenido</h2>
+                    <p class="section-subtitle">Edita textos, imágenes y amenidades de tu propiedad</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">📝 Información de la Propiedad</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Título Principal</label>
+                                <input type="text" class="form-input" value="Villa Vista al Mar - Departamento Exclusivo">
+                            </div>
+                            <div>
+                                <label class="form-label">Ubicación</label>
+                                <input type="text" class="form-input" value="Tonsupa, Esmeraldas, Ecuador">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-input" rows="5">Hermoso departamento frente al mar en Tonsupa, Ecuador. Perfecto para familias y parejas que buscan relajarse en un ambiente tropical único.</textarea>
+                        </div>
+                        <button class="btn-primary">💾 Guardar Contenido</button>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="content-section">
+                    <h2 class="section-title">⚙️ Configuración General</h2>
+                    <p class="section-subtitle">Ajustes generales del sistema y notificaciones</p>
+                    
+                    <div class="card">
+                        <h3 class="card-title">⚙️ Configuraciones Generales</h3>
+                        <div class="form-row">
+                            <div>
+                                <label class="form-label">Zona Horaria</label>
+                                <select class="form-input">
+                                    <option>America/Guayaquil (GMT-5)</option>
+                                    <option>America/New_York (GMT-5)</option>
+                                    <option>Europe/Madrid (GMT+1)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Idioma</label>
+                                <select class="form-input">
+                                    <option>Español</option>
+                                    <option>English</option>
+                                    <option>Français</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top: 30px; margin-bottom: 20px;">🔔 Notificaciones</h4>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>Notificaciones de reservas</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>Notificaciones de pagos</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span>Notificaciones de chat</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <button class="btn-primary">💾 Guardar Configuración</button>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">🔒 Seguridad</h3>
+                        <button class="btn-secondary" onclick="changePassword()">🔑 Cambiar Contraseña</button>
+                        <button class="btn-danger" onclick="exportBackup()">💾 Exportar Backup</button>
+                    </div>
+                </section>
             </main>
         </div>
     </div>
@@ -826,6 +1375,10 @@
                     console.log('✅ Service Worker registered');
                 }
 
+                // Initialize charts
+                initializeCharts();
+                generateCalendar();
+                
                 console.log('🔥 Admin panel initialized');
                 showNotification('🎉 Panel administrativo cargado', 'success');
                 
@@ -834,6 +1387,137 @@
             } catch (error) {
                 console.error('Error initializing admin panel:', error);
                 showNotification('⚠️ Error inicializando panel', 'error');
+            }
+        }
+
+        function initializeCharts() {
+            // Initialize Chart.js charts
+            if (typeof Chart !== 'undefined') {
+                // Dashboard Chart
+                const dashboardCtx = document.getElementById('dashboardChart');
+                if (dashboardCtx) {
+                    new Chart(dashboardCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Ingresos ($)',
+                                data: [3200, 4100, 3800, 5200, 4800, 6100],
+                                borderColor: '#667eea',
+                                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Revenue Chart
+                const revenueCtx = document.getElementById('revenueChart');
+                if (revenueCtx) {
+                    new Chart(revenueCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Ingresos Mensuales',
+                                data: [3200, 4100, 3800, 5200, 4800, 6100],
+                                backgroundColor: '#667eea'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Occupancy Chart
+                const occupancyCtx = document.getElementById('occupancyChart');
+                if (occupancyCtx) {
+                    new Chart(occupancyCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Ocupación (%)',
+                                data: [85, 92, 78, 88, 95, 90],
+                                borderColor: '#27ae60',
+                                backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Sources Chart
+                const sourcesCtx = document.getElementById('sourcesChart');
+                if (sourcesCtx) {
+                    new Chart(sourcesCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Directo', 'Airbnb', 'Booking.com', 'WhatsApp'],
+                            datasets: [{
+                                data: [45, 25, 20, 10],
+                                backgroundColor: ['#667eea', '#764ba2', '#27ae60', '#f39c12']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+            }
+        }
+
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            if (!calendarGrid) return;
+
+            // Generate a simple calendar for demo
+            const days = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // Clear existing content
+            calendarGrid.innerHTML = '';
+
+            // Add day headers
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.textContent = day;
+                dayHeader.style.cssText = 'font-weight: bold; text-align: center; padding: 10px;';
+                calendarGrid.appendChild(dayHeader);
+            });
+
+            // Add days
+            for (let day = 1; day <= Math.min(daysInMonth, 21); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                // Random status for demo
+                const statuses = ['available', 'booked', 'blocked'];
+                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                dayElement.classList.add(randomStatus);
+                
+                calendarGrid.appendChild(dayElement);
             }
         }
 
@@ -1058,6 +1742,16 @@
             }, 5000);
         }
 
+        // Utility functions for other sections
+        function generateInvoice(id) { showNotification(`📄 Generando factura ${id}...`); }
+        function refundPayment(id) { showNotification(`🔄 Procesando reembolso ${id}...`); }
+        function exportAnalyticsReport() { showNotification('📊 Exportando reporte...'); }
+        function blockSelectedDates() { showNotification('🚫 Bloqueando fechas...'); }
+        function unblockSelectedDates() { showNotification('✅ Desbloqueando fechas...'); }
+        function forceSyncAll() { showNotification('🔄 Sincronizando...'); }
+        function changePassword() { showNotification('🔑 Cambiar contraseña...'); }
+        function exportBackup() { showNotification('💾 Exportando backup...'); }
+
         // Make functions global for onclick handlers
         window.saveFirebaseConfig = saveFirebaseConfig;
         window.savePayPalConfig = savePayPalConfig;
@@ -1067,6 +1761,11 @@
         window.saveAllApiKeys = saveAllApiKeys;
         window.runFullSystemTest = runFullSystemTest;
         window.showNotification = showNotification;
+
+        // Load Chart.js
+        const chartScript = document.createElement('script');
+        chartScript.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+        document.head.appendChild(chartScript);
     </script>
 </body>
 </html>
