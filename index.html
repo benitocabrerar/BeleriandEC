@@ -467,14 +467,33 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Config sync notification */
+        .config-sync-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(39, 174, 96, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .config-sync-notification.show {
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body class="smooth-scroll">
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Villa Vista al Mar</h1>
-            <p>Departamento exclusivo frente al mar en Tonsupa, Ecuador</p>
+            <h1 id="companyTitle">Villa Vista al Mar</h1>
+            <p id="companyDescription">Departamento exclusivo frente al mar en Tonsupa, Ecuador</p>
             <a href="#booking" class="cta-button">Ver Disponibilidad</a>
             
             <div class="stats">
@@ -574,7 +593,7 @@
                 <div class="sync-info">
                     <div class="loading" id="syncLoading">
                         <div class="spinner"></div>
-                        Sincronizando con Airbnb...
+                        Sincronizando con configuración...
                     </div>
                     <div id="syncStatus" style="display: none;">
                         ✅ Última sincronización: <span id="lastSync"></span>
@@ -597,12 +616,12 @@
                         <span id="nightCount">0</span>
                     </div>
                     <div class="summary-row">
-                        <span>$130 x <span id="nightCountText">0</span> noches:</span>
+                        <span><span id="priceDisplay">$130</span> x <span id="nightCountText">0</span> noches:</span>
                         <span id="subtotal">$0</span>
                     </div>
                     <div class="summary-row">
                         <span>Limpieza:</span>
-                        <span>$25</span>
+                        <span id="cleaningFeeDisplay">$25</span>
                     </div>
                     <div class="summary-row" style="border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; margin-top: 10px;">
                         <span class="total-price">Total:</span>
@@ -647,13 +666,13 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <h3>Villa Vista al Mar</h3>
-        <p>Tonsupa, Esmeraldas, Ecuador</p>
+        <h3 id="footerCompanyName">Villa Vista al Mar</h3>
+        <p id="footerAddress">Tonsupa, Esmeraldas, Ecuador</p>
         <p style="margin-top: 20px;">
-            📧 info@villavistamar.com | 📱 +593 99 999 9999
+            📧 <span id="footerEmail">info@villavistamar.com</span> | 📱 <span id="footerPhone">+593 99 999 9999</span>
         </p>
         <p style="margin-top: 10px; opacity: 0.7;">
-            © 2025 Villa Vista al Mar. Todos los derechos reservados.
+            © 2025 <span id="footerCompanyNameCopy">Villa Vista al Mar</span>. Todos los derechos reservados.
         </p>
         <p style="margin-top: 20px; opacity: 0.3;">
             <a href="admin.html" style="color: rgba(255,255,255,0.3); text-decoration: none;">⚙️</a>
@@ -665,6 +684,14 @@
         💬 Reservar
     </a>
 
+    <!-- Config sync notification -->
+    <div id="configSyncNotification" class="config-sync-notification">
+        ✅ Configuraciones sincronizadas desde panel admin
+    </div>
+
+    <!-- Include API Config Manager -->
+    <script src="api-config-manager.js"></script>
+
     <script>
         class BookingCalendar {
             constructor() {
@@ -672,18 +699,114 @@
                 this.selectedCheckIn = null;
                 this.selectedCheckOut = null;
                 this.bookedDates = new Set();
+                
+                // Default values - will be overridden by config
                 this.nightlyRate = 130;
                 this.cleaningFee = 25;
-                this.airbnbIcalUrl = 'TU_URL_ICAL_DE_AIRBNB'; // Reemplazar con tu URL iCal real
+                this.whatsappNumber = '+593999999999';
+                this.companyInfo = {
+                    name: 'Villa Vista al Mar',
+                    email: 'info@villavistamar.com',
+                    phone: '+593 99 999 9999',
+                    address: 'Tonsupa, Esmeraldas, Ecuador'
+                };
+                
+                this.airbnbIcalUrl = 'TU_URL_ICAL_DE_AIRBNB';
                 
                 this.init();
             }
 
             init() {
+                // Load configuration from admin panel
+                this.loadConfiguration();
+                
+                // Update UI with configuration
+                this.updateUIWithConfig();
+                
                 this.renderCalendar();
                 this.setupEventListeners();
                 this.syncWithAirbnb();
                 this.simulateBookedDates(); // Para demo
+            }
+
+            loadConfiguration() {
+                try {
+                    // Get config from apiConfigManager (loaded from localStorage)
+                    if (window.apiConfigManager) {
+                        const config = window.apiConfigManager.config;
+                        
+                        // Load pricing configuration
+                        if (config.pricing) {
+                            this.nightlyRate = config.pricing.basePrice || 130;
+                            this.cleaningFee = config.pricing.cleaningFee || 25;
+                        }
+                        
+                        // Load WhatsApp configuration
+                        if (config.whatsapp && config.whatsapp.number) {
+                            // Clean the WhatsApp number (remove spaces, dashes, etc.)
+                            this.whatsappNumber = config.whatsapp.number.replace(/[\s\-\(\)]/g, '');
+                        }
+                        
+                        // Load company information
+                        if (config.general) {
+                            this.companyInfo = {
+                                name: config.general.companyName || 'Villa Vista al Mar',
+                                email: config.general.companyEmail || 'info@villavistamar.com',
+                                phone: config.general.companyPhone || '+593 99 999 9999',
+                                address: config.general.companyAddress || 'Tonsupa, Esmeraldas, Ecuador'
+                            };
+                        }
+                        
+                        console.log('✅ Configuration loaded from admin panel:', {
+                            nightlyRate: this.nightlyRate,
+                            cleaningFee: this.cleaningFee,
+                            whatsappNumber: this.whatsappNumber,
+                            companyInfo: this.companyInfo
+                        });
+                        
+                        // Show sync notification
+                        this.showConfigSyncNotification();
+                        
+                    } else {
+                        console.warn('⚠️ API Config Manager not available, using default values');
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading configuration:', error);
+                }
+            }
+
+            updateUIWithConfig() {
+                try {
+                    // Update pricing display
+                    document.getElementById('nightlyRate').textContent = `$${this.nightlyRate}`;
+                    document.getElementById('priceDisplay').textContent = `$${this.nightlyRate}`;
+                    document.getElementById('cleaningFeeDisplay').textContent = `$${this.cleaningFee}`;
+                    
+                    // Update company information
+                    document.getElementById('companyTitle').textContent = this.companyInfo.name;
+                    document.getElementById('footerCompanyName').textContent = this.companyInfo.name;
+                    document.getElementById('footerCompanyNameCopy').textContent = this.companyInfo.name;
+                    document.getElementById('footerEmail').textContent = this.companyInfo.email;
+                    document.getElementById('footerPhone').textContent = this.companyInfo.phone;
+                    document.getElementById('footerAddress').textContent = this.companyInfo.address;
+                    
+                    // Update page title
+                    document.title = `${this.companyInfo.name} - Exclusivo Departamento en Tonsupa`;
+                    
+                    console.log('✅ UI updated with configuration');
+                } catch (error) {
+                    console.error('❌ Error updating UI with configuration:', error);
+                }
+            }
+
+            showConfigSyncNotification() {
+                const notification = document.getElementById('configSyncNotification');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 3000);
+                }
             }
 
             setupEventListeners() {
@@ -699,6 +822,16 @@
 
                 document.getElementById('bookingButton').addEventListener('click', () => {
                     this.makeReservation();
+                });
+
+                // Listen for configuration changes
+                window.addEventListener('storage', (e) => {
+                    if (e.key === 'villa_vista_config') {
+                        console.log('🔄 Configuration changed, reloading...');
+                        this.loadConfiguration();
+                        this.updateUIWithConfig();
+                        this.calculateTotal(); // Recalculate with new prices
+                    }
                 });
             }
 
@@ -840,16 +973,13 @@
                 const nights = Math.ceil((this.selectedCheckOut - this.selectedCheckIn) / (1000 * 60 * 60 * 24));
                 const total = (nights * this.nightlyRate) + this.cleaningFee;
 
-                const message = `¡Hola! Me interesa reservar Villa Vista al Mar en Tonsupa:
+                const message = `¡Hola! Me interesa reservar ${this.companyInfo.name} en Tonsupa:\n\n📅 Llegada: ${checkin}\n📅 Salida: ${checkout}\n🌙 Noches: ${nights}\n💰 Total: $${total}\n\n¿Está disponible para estas fechas?`;
 
-📅 Llegada: ${checkin}
-📅 Salida: ${checkout}
-🌙 Noches: ${nights}
-💰 Total: $${total}
-
-¿Está disponible para estas fechas?`;
-
-                const whatsappUrl = `https://wa.me/593999999999?text=${encodeURIComponent(message)}`;
+                // Clean WhatsApp number for URL
+                const cleanNumber = this.whatsappNumber.replace(/[^\d]/g, '');
+                const whatsappUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`;
+                
+                console.log('📱 Opening WhatsApp with number:', cleanNumber);
                 window.open(whatsappUrl, '_blank');
             }
 
@@ -900,7 +1030,10 @@
 
         // Initialize the booking system when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new BookingCalendar();
+            // Wait for API Config Manager to load
+            setTimeout(() => {
+                new BookingCalendar();
+            }, 100);
             
             // Update floating button
             document.getElementById('floatingBook').addEventListener('click', (e) => {
