@@ -42,6 +42,13 @@ class ApiConfigManager {
                 number: "+593999999999",
                 businessName: "Villa Vista al Mar"
             },
+            pricing: {
+                basePrice: 130,
+                cleaningFee: 25,
+                highSeasonMultiplier: 1.5,
+                weekendMultiplier: 1.25,
+                currency: "USD"
+            },
             general: {
                 timezone: "America/Guayaquil",
                 currency: "USD",
@@ -74,6 +81,13 @@ class ApiConfigManager {
             
             // Reinitialize services with new config
             this.initializeServices();
+            
+            // Trigger storage event for cross-tab communication
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'villa_vista_config',
+                newValue: JSON.stringify(configToSave),
+                url: window.location.href
+            }));
             
             return { success: true };
         } catch (error) {
@@ -110,6 +124,9 @@ class ApiConfigManager {
             },
             fcm: (cfg) => {
                 return cfg.serverKey && cfg.senderId;
+            },
+            pricing: (cfg) => {
+                return cfg.basePrice && cfg.cleaningFee;
             }
         };
 
@@ -274,7 +291,8 @@ class ApiConfigManager {
             paypal: this.validateConfig('paypal', this.config.paypal),
             stripe: this.validateConfig('stripe', this.config.stripe),
             sendgrid: this.validateConfig('sendgrid', this.config.sendgrid),
-            fcm: this.validateConfig('fcm', this.config.fcm)
+            fcm: this.validateConfig('fcm', this.config.fcm),
+            pricing: this.validateConfig('pricing', this.config.pricing)
         };
     }
 
@@ -310,6 +328,23 @@ class ApiConfigManager {
         } catch (error) {
             return { success: false, error: error.message };
         }
+    }
+
+    // Update pricing configuration
+    updatePricing(pricingConfig) {
+        this.config.pricing = { ...this.config.pricing, ...pricingConfig };
+        return this.saveConfig();
+    }
+
+    // Get current pricing
+    getPricing() {
+        return this.config.pricing || {
+            basePrice: 130,
+            cleaningFee: 25,
+            highSeasonMultiplier: 1.5,
+            weekendMultiplier: 1.25,
+            currency: "USD"
+        };
     }
 }
 
