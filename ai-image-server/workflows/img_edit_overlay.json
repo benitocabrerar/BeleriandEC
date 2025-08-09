@@ -1,0 +1,32 @@
+{
+  "name": "img_edit_overlay",
+  "nodes": {
+    "base_image": {
+      "type": "LoadImage",
+      "path": "/app/input/base.png"
+    },
+    "overlay": {
+      "type": "LoadImage",
+      "path": "/app/input/logo.png"
+    },
+    "composite": {
+      "type": "ImageComposite",
+      "x": 0,
+      "y": 0,
+      "scale": 1.0,
+      "opacity": 1.0,
+      "blend_mode": "normal"
+    },
+    "save": {
+      "type": "SaveImageExtended",
+      "format": "png",
+      "quality": 100,
+      "output_path": "/app/output"
+    }
+  },
+  "workflow": [
+    ["base_image", "composite"],
+    ["overlay", "composite"],
+    ["composite", "save"]
+  ]
+}
