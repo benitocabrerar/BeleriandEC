@@ -1,0 +1,13 @@
+{
+  "name": "comfyui-mcp",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "comfyui-mcp-server.js",
+  "scripts": {
+    "start": "node comfyui-mcp-server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^0.1.0",
+    "node-fetch": "^3.3.2"
+  }
+}
