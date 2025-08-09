@@ -1,0 +1,50 @@
+{
+  "name": "txt2img_4k_flux_sdxl",
+  "nodes": {
+    "prompt": {
+      "type": "STRING",
+      "value": "a castle on a hill"
+    },
+    "negative": {
+      "type": "STRING",
+      "value": "blurry"
+    },
+    "seed": {
+      "type": "INT",
+      "value": 0
+    },
+    "checkpoint": {
+      "type": "CHECKPOINT",
+      "value": "flux1-fp8" 
+    },
+    "sampler": {
+      "type": "KSAMPLER",
+      "steps": 30,
+      "cfg": 7,
+      "sampler_name": "euler"
+    },
+    "latent_upscale": {
+      "type": "LatentUpscale",
+      "mode": "latent",
+      "scale_by": 2
+    },
+    "vae": {
+      "type": "VAEDECODE"
+    },
+    "save": {
+      "type": "SaveImageExtended",
+      "format": "png",
+      "quality": 100,
+      "output_path": "/app/output"
+    }
+  },
+  "workflow": [
+    ["prompt", "checkpoint"],
+    ["negative", "checkpoint"],
+    ["seed", "sampler"],
+    ["checkpoint", "sampler"],
+    ["sampler", "latent_upscale"],
+    ["latent_upscale", "vae"],
+    ["vae", "save"]
+  ]
+}
