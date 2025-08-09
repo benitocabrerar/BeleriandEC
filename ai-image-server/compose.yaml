@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  comfyui:
+    image: ghcr.io/ai-dock/comfyui:latest-cuda
+    restart: unless-stopped
+    ports:
+      - "${COMFYUI_PORT}:8188"
+    environment:
+      - COMFYUI_USER=${COMFYUI_USER}
+      - COMFYUI_PASSWORD=${COMFYUI_PASSWORD}
+    volumes:
+      - ./models:/app/models
+      - ./output:/app/output
+      - ./input:/app/input
+      - ./custom_nodes:/app/custom_nodes
+      - ./configs:/app/configs
+      - ./bootstrap:/bootstrap
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    command: ["/bin/bash", "-lc", "/bootstrap/setup_custom_nodes.sh && /docker/entrypoint.sh"]
